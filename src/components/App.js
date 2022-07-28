@@ -1,11 +1,21 @@
 import '../styles/App.scss';
 import { useState } from 'react';
-// import background from '../images/blackboard.jpg';
 
 function App() {
-  const [numberOfErrors, setNumberOfErrors] = useState (0);
-const handleClick = () => {setNumberOfErrors(numberOfErrors +1 )};
-  
+  // const [numberOfErrors, setNumberOfErrors] = useState (0);
+  // const handleClick = () => {setNumberOfErrors(numberOfErrors +1 )};
+
+  const [lastLetter, setLastLetter] = useState('');
+
+  const handleLetterInput = (ev) => {
+    setLastLetter(ev.target.value.toLowerCase());
+    const validCharacter = /[aA-zZÁáÉéÍíÓóÚúÜüÑñ´¨]/;
+    if (validCharacter.test(ev.target.value)) {
+    } else {
+      setLastLetter('');
+      ev.target.value = '';
+    }
+  };
 
   return (
     <div>
@@ -51,11 +61,14 @@ const handleClick = () => {setNumberOfErrors(numberOfErrors +1 )};
                 type="text"
                 name="last-letter"
                 id="last-letter"
+                value={lastLetter}
+                onChange={handleLetterInput}
               />
             </form>
           </section>
-          <button onClick={handleClick}>Incrementar</button>
-          <section className={`dummy error-${numberOfErrors}`}>
+          {/* <button onClick={handleClick}>Incrementar</button> */}
+          {/* <section className={`dummy error-${numberOfErrors}`}> */}
+          <section className="dummy error-5">
             <span className="error-13 eye"></span>
             <span className="error-12 eye"></span>
             <span className="error-11 line"></span>
