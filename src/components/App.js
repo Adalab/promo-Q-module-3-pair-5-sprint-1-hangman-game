@@ -1,12 +1,22 @@
 import '../styles/App.scss';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import callToApi from './services/fetch';
 
 function App() {
-  // const [numberOfErrors, setNumberOfErrors] = useState (0);
-  // const handleClick = () => {setNumberOfErrors(numberOfErrors +1 )};
+   const [numberOfErrors, setNumberOfErrors] = useState (0);
+   const handleClick = () => {setNumberOfErrors(numberOfErrors +1 )};
 
   const [lastLetter, setLastLetter] = useState('');
 
+  const { word, setWord} = useState('katakroker');
+
+  useEffect(() => {
+    callToApi().then((response) => { 
+      setWord(response);
+    });
+  }, []);
+
+  
   const handleLetterInput = (ev) => {
     setLastLetter(ev.target.value.toLowerCase());
     const validCharacter = /[aA-zZÁáÉéÍíÓóÚúÜüÑñ´¨]/;
@@ -15,6 +25,13 @@ function App() {
       setLastLetter('');
       ev.target.value = '';
     }
+  };
+  
+  const renderSolutionLetters = (word)=>{
+    const wordLetters = word.split('');
+    (wordLetters.map((letter) => {
+      return <li class={letter}></li>
+    }))
   };
 
   return (
@@ -27,9 +44,10 @@ function App() {
           <section>
             <div className="solution">
               <h2 className="title">Solución:</h2>
-              <ul className="letters">
-                <li className="letter">k</li>
-                <li className="letter">a</li>
+              <ul className="letters" >
+                {renderSolutionLetters()}
+                <li className="letter"></li>
+                {/* <li className="letter"></li>
                 <li className="letter"></li>
                 <li className="letter">a</li>
                 <li className="letter">k</li>
@@ -37,7 +55,7 @@ function App() {
                 <li className="letter"></li>
                 <li className="letter">k</li>
                 <li className="letter">e</li>
-                <li className="letter">r</li>
+                <li className="letter">r</li> */}
               </ul>
             </div>
             <div className="error">
